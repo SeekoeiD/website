@@ -1,0 +1,104 @@
+baseurl = "https://codespot.co.za/"
+languageCode = "en"
+title = "Daniël du Toit"
+#theme = "soho"
+DefaultContentLanguage = "en"
+enableInlineShortcodes = true
+summarylength = 10
+enableEmoji = true
+paginate = 5
+ignoreErrors = ["error-remote-getjson"]
+
+[params]
+description = "Daniël du Toit"
+# gravatar = "soho@example.com"
+images = ["images/profile.jpg"]
+profilePicture = "images/profile.jpg"
+copyright = "Daniël du Toit"
+#license = "CC BY-SA 4.0"
+#licenseURL = "https://creativecommons.org/licenses/by-sa/4.0"
+#builtWith = true
+mainSections = ["posts"]
+
+## Set custom theme color.
+#themeColor = "#A3C9E2" # light blue
+themeColor = "#4D9BA6" # teal
+
+  [[params.socialIcons]]
+  icon = "fa-linkedin"
+  title = "Linkedin"
+  url = "https://www.linkedin.com/in/dani%C3%ABl-du-toit-2163b1213/"
+
+  [[params.socialIcons]]
+  icon = "fa-github"
+  title = "GitHub"
+  url = "https://github.com/SeekoeiD"
+
+  [[params.socialIcons]]
+  icon = "fa-twitter"
+  title = "Twitter"
+  url = "https://x.com/danieljosiasdt"
+
+[menu]
+
+  [[menu.main]]
+  name = "Posts"
+  weight = 100
+  identifier = "posts"
+  url = "/posts/"
+
+  #[[menu.main]]
+  #name = "Categories"
+  #weight = 200
+  #identifier = "categories"
+  #url = "/categories/"
+
+  [[menu.main]]
+  name = "Tags"
+  weight = 200
+  identifier = "tags"
+  url = "/tags/"
+
+  [[menu.main]]
+  name = "About"
+  identifier = "about"
+  weight = 10
+  url = "/about/"
+
+[taxonomies]
+category = "categories"
+tag = "tags"
+series = "series"
+
+[privacy]
+
+  [privacy.vimeo]
+    disabled = false
+    simple = true
+
+  [privacy.twitter]
+    disabled = false
+    enableDNT = true
+    simple = true
+
+  [privacy.instagram]
+    disabled = false
+    simple = true
+
+  [privacy.youtube]
+    disabled = false
+    privacyEnhanced = true
+
+[services]
+
+  [services.instagram]
+    disableInlineCSS = true
+
+  [services.twitter]
+    disableInlineCSS = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      # needed to render raw HTML (e.g. <sub>, <sup>, <kbd>, <mark>)
+      unsafe = true
