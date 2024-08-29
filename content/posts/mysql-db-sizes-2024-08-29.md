@@ -1,11 +1,11 @@
 +++
 title = 'MySql Database Size'
-date = 2024-08-29T14:56:40+02:00
+date = 2024-08-29
 draft = false
 tags = ['mysql', 'database', 'size']
 +++
 
-This will be my first post, because I always forget how to get the size of a MySql database. So here it is:
+I always forget how to get the size of a MySql database. So here it is:
 
 ```sql
 SELECT
