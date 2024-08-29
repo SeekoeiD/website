@@ -15,9 +15,9 @@
 
   {{ partial "tags.html" . }}
 
-  {{ if (and (ne .Params.DisableShare true) (ne .Params.disable_share true)) -}}
+  <!-- {{ if (and (ne .Params.DisableShare true) (ne .Params.disable_share true)) -}}
   {{ partial "share.html" . }}
-  {{- end }}
+  {{- end }} -->
 
   {{ if (and .Site.Config.Services.Disqus.Shortname (ne .Params.DisableComments true) (ne .Params.disable_comments true)) -}}
   <div class="comments">
