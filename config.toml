@@ -20,6 +20,8 @@ copyright = "Daniël du Toit"
 #builtWith = true
 mainSections = ["posts"]
 
+enableGiscusComments = true
+
 ## Set custom theme color.
 #themeColor = "#A3C9E2" # light blue
 themeColor = "#4D9BA6" # teal
@@ -96,9 +98,6 @@ series = "series"
 
   [services.twitter]
     disableInlineCSS = true
-
-  #[services.disqus]
-  #  shortname = 'seekoeid.disqus.com'
 
 [markup]
   [markup.goldmark]

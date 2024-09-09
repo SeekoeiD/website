@@ -19,10 +19,10 @@
   {{ partial "share.html" . }}
   {{- end }} -->
 
-  {{ if (and .Site.Config.Services.Disqus.Shortname (ne .Params.DisableComments true) (ne .Params.disable_comments true)) -}}
+  {{ if (.Site.Params.enableGiscusComments) -}}
   <div class="comments">
     <h2>Comments</h2>
-    {{ template "_internal/disqus.html" . }}
+      {{ partial "giscus.html" . }}
   </div>
   {{- end }}
 </div>
