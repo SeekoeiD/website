@@ -2,7 +2,7 @@
 title = 'MySQL Parameters'
 date = 2024-09-05
 draft = false
-tags = ['mysql', 'database', 'size']
+tags = ['mysql', 'database']
 +++
 
 My goto settings for MySQL. This is for a server that has 8GB RAM available for the MySQL database.

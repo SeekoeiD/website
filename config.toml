@@ -97,6 +97,9 @@ series = "series"
   [services.twitter]
     disableInlineCSS = true
 
+  [services.disqus]
+    shortname = 'seekoeid.disqus.com'
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
