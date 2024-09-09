@@ -1,5 +1,5 @@
 +++
-title = 'MySQL Parameters'
+title = 'MySQL: Configuration Parameters'
 date = 2024-09-05
 draft = false
 tags = ['mysql', 'database']
