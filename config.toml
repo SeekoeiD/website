@@ -6,7 +6,7 @@ DefaultContentLanguage = "en"
 enableInlineShortcodes = true
 summarylength = 10
 enableEmoji = true
-paginate = 5
+pagination.pagerSize = 5
 ignoreErrors = ["error-remote-getjson"]
 
 [params]
@@ -78,7 +78,7 @@ series = "series"
     disabled = false
     simple = true
 
-  [privacy.twitter]
+  [privacy.x]
     disabled = false
     enableDNT = true
     simple = true
@@ -96,7 +96,7 @@ series = "series"
   [services.instagram]
     disableInlineCSS = true
 
-  [services.twitter]
+  [services.x]
     disableInlineCSS = true
 
 [markup]

@@ -1,6 +1,6 @@
 +++
 title = 'Using Giscus with Hugo'
-date = 2024-09-09T15:45:52+02:00
+date = 2024-09-09T00:00:00+02:00
 draft = false
 tags = ['hugo', 'giscus']
 +++

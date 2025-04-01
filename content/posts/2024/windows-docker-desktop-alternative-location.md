@@ -1,6 +1,6 @@
 +++
 title = 'Docker Desktop on Windows: Install to Alternative Location'
-date = 2024-11-07T15:17:57+02:00
+date = 2024-11-07T00:00:00+02:00
 draft = false
 tags = ['docker']
 +++

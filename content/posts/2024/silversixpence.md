@@ -1,6 +1,6 @@
 +++
 title = 'SilverSixpence - Blockchain Engineering'
-date = 2024-04-01
+date = 2024-04-01T00:00:00+02:00
 draft = false
 tags = ['blockchain', 'career', 'silversixpence']
 +++

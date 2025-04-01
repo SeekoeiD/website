@@ -1,6 +1,6 @@
 +++
 title = 'MySQL: Write/Read Files'
-date = 2024-09-07T14:20:49+02:00
+date = 2024-09-07T00:00:00+02:00
 draft = false
 tags = ['mysql', 'database']
 +++

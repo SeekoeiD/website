@@ -1,6 +1,6 @@
 +++
 title = 'Unix: Directrory Sizes'
-date = 2024-11-25T16:03:37+02:00
+date = 2024-11-25T00:00:00+02:00
 draft = false
 tags = ['unix', 'linux', 'directory', 'size']
 +++

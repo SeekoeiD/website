@@ -1,6 +1,6 @@
 +++
 title = 'MySQL: Database Size'
-date = 2024-08-29
+date = 2024-08-29T00:00:00+02:00
 draft = false
 tags = ['mysql', 'database', 'size']
 +++
