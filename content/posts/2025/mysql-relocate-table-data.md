@@ -56,6 +56,6 @@ I also had to disable AppArmor on Ubuntu 24.04.
 
 References:
 
--   https://dev.mysql.com/doc/refman/8.4/en/create-table.html
--   https://dev.mysql.com/doc/refman/8.4/en/innodb-create-table-external.html
--   https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_directories
+-   <https://dev.mysql.com/doc/refman/8.4/en/create-table.html>
+-   <https://dev.mysql.com/doc/refman/8.4/en/innodb-create-table-external.html>
+-   <https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_directories>
