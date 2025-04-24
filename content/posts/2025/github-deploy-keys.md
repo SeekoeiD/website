@@ -9,15 +9,15 @@ The easiest way to clone, pull and push code to a private repo on Github is to u
 
 To add the deploy key to your Github repository, follow these steps:
 
--   go to your Github repository (<https://github.com/silversixpence-crypto/dapol>)
--   click on `Settings` in the top right corner
--   click on `Deploy keys` in the left sidebar
--   click on `Add deploy key`
--   give the key a title (e.g. `My server`)
--   paste the public key from your server into the `Key` field
--   check the `Allow write access` box if you want to be able to push to the repo from your server
--   click on `Add key`
--   you will see a success message and the key will be added to the list of deploy keys
+- go to your Github repository (<https://github.com/silversixpence-crypto/dapol>)
+- click on `Settings` in the top right corner
+- click on `Deploy keys` in the left sidebar
+- click on `Add deploy key`
+- give the key a title (e.g. `My server`)
+- paste the public key from your server into the `Key` field
+- check the `Allow write access` box if you want to be able to push to the repo from your server
+- click on `Add key`
+- you will see a success message and the key will be added to the list of deploy keys
 
 ![github-deploy-keys](/images/github-deploy-keys.png)
 
