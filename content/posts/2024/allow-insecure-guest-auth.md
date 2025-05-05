@@ -11,13 +11,13 @@ My `smb.conf` file:
 
 ```bash
 [10TB HDD Mirror]
-   path = /hdd1/files
-   writeable = yes
-   browseable = yes
-   public = yes
-   create mask = 0777
-   directory mask = 0777
-   force user = root
+ path = /hdd1/files
+ writeable = yes
+ browseable = yes
+ public = yes
+ create mask = 0777
+ directory mask = 0777
+ force user = root
 ```
 
 When I try to access the shares from a Windows client, I get the following error:

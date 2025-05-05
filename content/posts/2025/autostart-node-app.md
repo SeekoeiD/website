@@ -1,7 +1,7 @@
 +++
 title = 'Autostart Node App'
 date = 2025-04-22T00:00:00+02:00
-draft = true
+draft = false
 tags = ['unix', 'linux', 'ubuntu', 'nvm', 'nodejs', 'npm']
 +++
 
@@ -25,12 +25,12 @@ cd /home/my-app-directory
 
 while true
 do
-    git pull
-    npm install
-    npm run app
+  git pull
+  npm install
+  npm run app
 
-    echo "App crashed, restarting in 10 seconds..."
-    sleep 10
+  echo "App crashed, restarting in 10 seconds..."
+  sleep 10
 done
 ```
 

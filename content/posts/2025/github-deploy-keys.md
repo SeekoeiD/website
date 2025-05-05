@@ -47,8 +47,8 @@ Add the following lines to the file:
 
 ```bash
 Host some-name-for-dapol-repo
-    HostName github.com
-    IdentityFile /home/github-deploy-keys/dapol
+  HostName github.com
+  IdentityFile /home/github-deploy-keys/dapol
 ```
 
 This tells SSH to use the private key located at `/home/github-deploy-keys/dapol` when connecting to Github. You can add as many keys as you want by creating a new `Host` section for each repo.

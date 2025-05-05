@@ -7,28 +7,28 @@ tags = ['unix', 'linux', 'directory', 'size']
 
 When you install Ubuntu 24.04 and tell is to use the full disk it only creates a 100 GB root volume. We can expand it to use the full available disk space.
 
-When you run `vgdisplay` it will list the available disk space you can use. The `Free  PE / Size       95715 / <373.89 GiB` line shows that we have 373.89 GiB of the 500 GB SSD available to use.
+When you run `vgdisplay` it will list the available disk space you can use. The `Free  PE / Size   95715 / <373.89 GiB` line shows that we have 373.89 GiB of the 500 GB SSD available to use.
 
 ```bash
   --- Volume group ---
-  VG Name               ubuntu-vg
+  VG Name     ubuntu-vg
   System ID
-  Format                lvm2
-  Metadata Areas        1
+  Format      lvm2
+  Metadata Areas    1
   Metadata Sequence No  2
-  VG Access             read/write
-  VG Status             resizable
-  MAX LV                0
-  Cur LV                1
-  Open LV               1
-  Max PV                0
-  Cur PV                1
-  Act PV                1
-  VG Size               <473.89 GiB
-  PE Size               4.00 MiB
-  Total PE              121315
-  Alloc PE / Size       25600 / 100.00 GiB
-  Free  PE / Size       95715 / <373.89 GiB
+  VG Access     read/write
+  VG Status     resizable
+  MAX LV      0
+  Cur LV      1
+  Open LV     1
+  Max PV      0
+  Cur PV      1
+  Act PV      1
+  VG Size     <473.89 GiB
+  PE Size     4.00 MiB
+  Total PE      121315
+  Alloc PE / Size   25600 / 100.00 GiB
+  Free  PE / Size   95715 / <373.89 GiB
 ```
 
 Extend the root logical volume to use all free space:

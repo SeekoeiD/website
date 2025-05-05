@@ -37,9 +37,9 @@ To create your tables and specify there data locations:
 
 ```sql
 CREATE TABLE `labels` (
-    `location` varchar(255) NOT NULL,
-    `label` varchar(255) NOT NULL,
-    PRIMARY KEY (`location`)
+  `location` varchar(255) NOT NULL,
+  `label` varchar(255) NOT NULL,
+  PRIMARY KEY (`location`)
 ) ENGINE = InnoDB DATA DIRECTORY = '/nvme1/mysql-data/';
 ```
 
@@ -56,6 +56,6 @@ I also had to disable AppArmor on Ubuntu 24.04.
 
 References:
 
--   <https://dev.mysql.com/doc/refman/8.4/en/create-table.html>
--   <https://dev.mysql.com/doc/refman/8.4/en/innodb-create-table-external.html>
--   <https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_directories>
+- <https://dev.mysql.com/doc/refman/8.4/en/create-table.html>
+- <https://dev.mysql.com/doc/refman/8.4/en/innodb-create-table-external.html>
+- <https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html#sysvar_innodb_directories>

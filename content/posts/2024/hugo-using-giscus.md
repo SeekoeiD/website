@@ -11,11 +11,11 @@ I host my Hugo-based website on GitHub Pages and wanted to use Giscus on the sam
 
 Basics first:
 
--   My website is hosted in a public repo on Github
--   Its is built with Hugo and deployed to GitHub Pages using GitHub Actions
--   Discussions are enabled on the repo (repo settings -> General -> Features -> Discussions)
--   Install Giscus to the repo from <https://github.com/apps/giscus>
--   Get your Giscus script by generating it here: <https://giscus.app/>
+- My website is hosted in a public repo on Github
+- Its is built with Hugo and deployed to GitHub Pages using GitHub Actions
+- Discussions are enabled on the repo (repo settings -> General -> Features -> Discussions)
+- Install Giscus to the repo from <https://github.com/apps/giscus>
+- Get your Giscus script by generating it here: <https://giscus.app/>
 
 Integrating Giscus with Hugo:
 
@@ -29,20 +29,20 @@ The Discus code is in `single.html`. I created `giscus.html` in the `partials` d
 
 ```html
 <script
-    src="https://giscus.app/client.js"
-    data-repo="SeekoeiD/website"
-    data-repo-id="R_kgDOMqEhoQ"
-    data-category="General"
-    data-category-id="DIC_kwDOMqEhoc4CiUot"
-    data-mapping="pathname"
-    data-strict="0"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="bottom"
-    data-theme="preferred_color_scheme"
-    data-lang="en"
-    crossorigin="anonymous"
-    async
+  src="https://giscus.app/client.js"
+  data-repo="SeekoeiD/website"
+  data-repo-id="R_kgDOMqEhoQ"
+  data-category="General"
+  data-category-id="DIC_kwDOMqEhoc4CiUot"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="preferred_color_scheme"
+  data-lang="en"
+  crossorigin="anonymous"
+  async
 ></script>
 ```
 
@@ -51,8 +51,8 @@ The Discus code is in `single.html`. I created `giscus.html` in the `partials` d
 ```html
 {{ if (.Site.Params.enableGiscusComments) -}}
 <div class="comments">
-    <h2>Comments</h2>
-    {{ partial "giscus.html" . }}
+  <h2>Comments</h2>
+  {{ partial "giscus.html" . }}
 </div>
 {{- end }}
 ```
