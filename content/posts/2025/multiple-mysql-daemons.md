@@ -1,6 +1,6 @@
 +++
 title = 'Running Multiple MySQL Daemons on the Same Server'
-date = 2025-05-06T00:00:00+02:00
+date = 2025-05-05T19:00:00+02:00
 draft = false
 tags = ['mysql', 'unix', 'linux', 'ubuntu']
 +++
