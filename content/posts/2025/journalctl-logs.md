@@ -59,7 +59,9 @@ journalctl --dmesg
 My most-used commands are:
 
 ```bash
-journalctl --dmesg --since "10 minutes ago"
 journalctl --dmesg --output=short-iso
+journalctl --dmesg --output=short-iso --since "10 minutes ago"
+journalctl --dmesg --output=short-iso --since "1 hour ago"
+journalctl --dmesg --output=short-iso --since "1 day ago"
 journalctl --dmesg --reverse --output=short-iso
 ```
