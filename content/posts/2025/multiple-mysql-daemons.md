@@ -26,15 +26,15 @@ I'll keep my default MySQL daemon and add an `NVMe` and `SATA` daemon. I'll stil
 Create the daemon storage locations (like `/var/lib/mysql`):
 
 ```bash
-mkdir -p /nvme2/mysqld
-mkdir -p /ssd2/mysqld
-chown -R mysql:mysql /nvme2/mysqld /ssd2/mysqld
+mkdir -p /nvme2/mysql
+mkdir -p /ssd2/mysql
+chown -R mysql:mysql /nvme2/mysql /ssd2/mysql
 
-mysqld --initialize --datadir=/nvme2/mysqld
-mysqld --initialize --datadir=/ssd2/mysqld
+mysqld --initialize-insecure --datadir=/nvme2/mysql
+mysqld --initialize-insecure --datadir=/ssd2/mysql
 ```
 
-Create configuration files for each daemon (like `/etc/mysql/mysql.conf.d/mysqld.cnf`):
+Create configuration files (`/nvme2/mysql.cnf` and `/ssd2/mysql.cnf`) for each daemon (like `/etc/mysql/mysql.conf.d/mysqld.cnf`):
 
 ```ini
 [mysqld]
@@ -96,7 +96,7 @@ innodb_adaptive_hash_index_parts = 8
 innodb_directories="/nvme1/mysql-data;/nvme2/mysql-data;/ssd1/mysql-data;/ssd2/mysql-data"
 ```
 
-The most important settings are:
+The important settings are:
 
 ```ini
 user = mysql
@@ -106,18 +106,18 @@ port = 3307
 datadir = /nvme2/mysql
 ```
 
-Because we ran `mysqld --initialize` the root password was given a temporary password. You can find it in the error log file: `grep 'temporary password' /var/log/mysql/error.log`. Connect to your new daemon with `mysql --socket=/var/run/mysqld/nvme.sock -u root -p` and the temporary password.
+Be sure to use unique values for `pid-file`, `socket`, and `port` for each daemon. The `datadir` should point to the new data directory.
 
-You will have to change the password to something more permanent. You can do this with the `ALTER USER` command:
+You can now start the new daemons. The first time you start them, they will create the data files in the new directories. You can do this with:
 
-```sql
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
-CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
+```bash
+mysqld --defaults-file=/nvme2/mysql.cnf
+mysqld --defaults-file=/ssd2/mysql.cnf
 ```
 
-We can run these new daemons as services. Create a new service file for each daemon in `/etc/systemd/system/mysql-nvme.service` and `/etc/systemd/system/mysql-sata.service`:
+Because we ran `mysqld --initialize-insecure` the root account has an empty password. If you used `mysqld --initialize` a temporary password was created. You can find it in the error log file: `grep 'temporary password' /var/log/mysql/error.log`. Connect to your new daemon with `mysql --socket=/var/run/mysqld/nvme.sock -u root -p`. You can shutdown the daemon with `mysqladmin --socket=/var/run/mysqld/nvme.sock -u root -p shutdown` (ctrl+c doesn't work).
+
+We can run these new daemons as services. Create a new service file for each daemon in `/etc/systemd/system/mysql-nvme.service` and `/etc/systemd/system/mysql-sata.service` (change `--defaults-file` to point to the correct config file):
 
 ```ini
 [Unit]
@@ -140,6 +140,8 @@ Then run the following commands to start the new daemons:
 systemctl daemon-reload
 systemctl start mysql-nvme
 systemctl enable mysql-nvme
+systemctl start mysql-sata
+systemctl enable mysql-sata
 ```
 
 Check the status of all daemons with:
