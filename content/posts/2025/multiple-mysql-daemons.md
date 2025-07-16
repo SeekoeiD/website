@@ -2,7 +2,7 @@
 title = 'Running Multiple MySQL Daemons on the Same Server'
 date = 2025-05-05T19:00:00+02:00
 draft = false
-tags = ['mysql', 'unix', 'linux', 'ubuntu']
+tags = ['mysql', 'ubuntu']
 +++
 
 I have multiple, write-heavy databases on a single server. I have MySQL installed in the default `/var/lib/mysql` directory, but create my table `.idb` files on other drives. See my post on relocating MySQL data files for more [information](https://danieldutoit.net/posts/2025/mysql-relocate-table-data/).

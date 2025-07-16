@@ -2,7 +2,7 @@
 title = 'Github Deploy Keys'
 date = 2025-04-22T00:00:00+02:00
 draft = false
-tags = ['unix', 'linux', 'ubuntu','github']
+tags = ['ubuntu','github']
 +++
 
 The easiest way to clone, pull and push code to a private repo on Github is to use a deploy key. The deploy key is a public key that you can add to your Github repository. This key will be the public SSH key of your Unix server located at `~/.ssh/id_rsa.pub`. The private key will be located at `~/.ssh/id_rsa` and should never be shared with anyone.

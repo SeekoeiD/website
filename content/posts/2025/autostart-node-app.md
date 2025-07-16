@@ -2,7 +2,7 @@
 title = 'Autostart Node App'
 date = 2025-04-22T00:00:00+02:00
 draft = false
-tags = ['unix', 'linux', 'ubuntu', 'nvm', 'nodejs', 'npm']
+tags = ['ubuntu', 'nvm', 'nodejs', 'npm']
 +++
 
 The easiest way to manage Nodejs runtimes is to use NVM (Node Version Manager). This allows you to install multiple versions of Nodejs and switch between them easily. You can install NVM by following the instructions on the NVM Github page: <https://github.com/nvm-sh/nvm>.

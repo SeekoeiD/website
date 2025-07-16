@@ -2,7 +2,7 @@
 title = 'journalctl Logs'
 date = 2025-05-05T00:00:00+02:00
 draft = false
-tags = ['unix', 'linux', 'ubuntu']
+tags = ['ubuntu']
 +++
 
 The `journalctl` command is used to query and display messages from the journal, which is a component of the systemd system and service manager. It provides a way to view logs from various sources, including the kernel, system services, and user applications.

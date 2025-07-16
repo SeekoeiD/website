@@ -2,7 +2,7 @@
 title = 'Unix: Directrory Sizes'
 date = 2024-11-25T00:00:00+02:00
 draft = false
-tags = ['unix', 'linux', 'directory', 'size']
+tags = ['unix', 'ubuntu', 'directory', 'size']
 +++
 
 The `df` command is used to display the amount of disk space available on the file system. The `du` command is used to estimate file space usage.

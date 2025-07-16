@@ -2,7 +2,7 @@
 title = 'Ubuntu 24.04: Expand LVM Root'
 date = 2025-03-27T00:00:00+02:00
 draft = false
-tags = ['unix', 'linux', 'directory', 'size']
+tags = ['unix', 'ubuntu', 'directory', 'size']
 +++
 
 When you install Ubuntu 24.04 and tell is to use the full disk it only creates a 100 GB root volume. We can expand it to use the full available disk space.
