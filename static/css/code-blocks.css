@@ -1,0 +1,175 @@
+/* Enhanced Code Block Styling */
+
+/* Container for code blocks with copy button */
+.code-container {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+/* Pre blocks styling */
+pre {
+  background-color: #f8f9fa !important;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Code blocks inside pre */
+pre code {
+  background-color: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Inline code styling */
+code:not(pre code) {
+  background-color: #f1f3f4;
+  color: #d73a49;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.875em;
+}
+
+/* Chroma wrapper styling */
+.chroma {
+  background-color: #f8f9fa !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.chroma pre {
+  background-color: transparent !important;
+  border: none;
+  margin: 0;
+  padding: 1rem;
+}
+
+/* Copy button styling */
+.copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background-color 0.2s;
+  z-index: 10;
+}
+
+.code-container:hover .copy-button {
+  opacity: 1;
+}
+
+.copy-button:hover {
+  background: #5a6268;
+}
+
+.copy-button.copied {
+  background: #28a745;
+}
+
+/* Language label */
+.code-language {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(108, 117, 125, 0.8);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 5;
+}
+
+.code-container:hover .code-language {
+  opacity: 1;
+}
+
+/* Highlight wrapper improvements */
+.highlight {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e9ecef;
+  background-color: #f8f9fa;
+}
+
+.highlight pre {
+  border: none;
+  margin: 0;
+}
+
+/* Line numbers styling for Chroma */
+.chroma .lnt,
+.chroma .ln {
+  color: #6c757d;
+  background-color: #f1f3f4;
+  padding: 0 0.5em;
+  margin-right: 0.5em;
+  border-right: 1px solid #dee2e6;
+}
+
+/* Specific syntax highlighting improvements */
+.chroma .c { color: #6a737d; font-style: italic; } /* Comments */
+.chroma .k { color: #d73a49; font-weight: 600; } /* Keywords */
+.chroma .s, .chroma .s1, .chroma .s2 { color: #032f62; } /* Strings */
+.chroma .nf { color: #6f42c1; font-weight: 600; } /* Function names */
+.chroma .nc { color: #6f42c1; font-weight: 600; } /* Class names */
+.chroma .nb { color: #005cc5; } /* Built-ins */
+.chroma .mi, .chroma .mf { color: #005cc5; } /* Numbers */
+.chroma .o { color: #d73a49; } /* Operators */
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  pre {
+    background-color: #0d1117 !important;
+    border-color: #30363d;
+    color: #e6edf3;
+  }
+  
+  .chroma {
+    background-color: #0d1117 !important;
+  }
+  
+  code:not(pre code) {
+    background-color: #21262d;
+    color: #f85149;
+  }
+  
+  .highlight {
+    background-color: #0d1117;
+    border-color: #30363d;
+  }
+  
+  .copy-button {
+    background: #21262d;
+    color: #e6edf3;
+  }
+  
+  .copy-button:hover {
+    background: #30363d;
+  }
+  
+  .chroma .lnt,
+  .chroma .ln {
+    background-color: #161b22;
+    border-color: #30363d;
+    color: #8b949e;
+  }
+}

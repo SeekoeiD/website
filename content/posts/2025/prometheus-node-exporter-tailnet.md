@@ -5,8 +5,6 @@ draft = false
 tags = ['tailscale', 'prometheus', 'ubuntu']
 +++
 
-# Securing Prometheus Node Exporter with Tailscale
-
 When monitoring multiple servers with Prometheus, security should be a top priority. Node Exporter exposes detailed system metrics that you definitely don't want accessible from the public internet. This guide shows how to set up Node Exporter to be accessible only through your Tailscale network (tailnet).
 
 ## The Security Challenge

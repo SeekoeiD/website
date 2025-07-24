@@ -28,6 +28,16 @@
         rel="stylesheet"
         href="{{ `css/hyde.css` | relURL }}">
 
+  <!-- Syntax highlighting CSS -->
+  <link type="text/css"
+        rel="stylesheet"
+        href="{{ `css/syntax.css` | relURL }}">
+
+  <!-- Enhanced code blocks CSS -->
+  <link type="text/css"
+        rel="stylesheet"
+        href="{{ `css/code-blocks.css` | relURL }}">
+
   {{ partial "theme-color.html" . }}
 
   {{ range $.Site.Params.customCss -}}
@@ -69,6 +79,7 @@
 
   <script src="{{ `js/jquery.min.js` | relURL }}"></script>
   <script src="{{ `js/soho.js` | relURL }}"></script>
+  <script src="{{ `js/code-blocks.js` | relURL }}"></script>
 
   {{ range $.Site.Params.customJs -}}
   <script src="{{ . | relURL }}"></script>

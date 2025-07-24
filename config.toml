@@ -104,3 +104,15 @@ series = "series"
     [markup.goldmark.renderer]
       # needed to render raw HTML (e.g. <sub>, <sup>, <kbd>, <mark>)
       unsafe = true
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = true
+    hl_Lines = ""
+    lineAnchors = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = false
+    style = "github"
+    tabWidth = 4
