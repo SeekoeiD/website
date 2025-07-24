@@ -105,12 +105,15 @@ systemctl status node_exporter --no-pager
 ## Key Security Features
 
 ### 1. Tailscale IP Range Restriction
+
 The script uses `100.0.0.0/8` which is Tailscale's reserved IP range. This ensures only devices authenticated to your tailnet can access the metrics.
 
 ### 2. Explicit Deny Rule
+
 The `ufw deny 9100` rule provides defense-in-depth by explicitly blocking external access to the Node Exporter port.
 
 ### 3. SSH Protection
+
 The script preserves SSH access as a safety measure, preventing you from locking yourself out during firewall configuration.
 
 ## Verification Steps
@@ -118,23 +121,28 @@ The script preserves SSH access as a safety measure, preventing you from locking
 After running the script, verify your setup:
 
 ### Check Node Exporter Status
+
 ```bash
 systemctl status node_exporter
 ```
 
 ### Verify Firewall Rules
+
 ```bash
 ufw status verbose
 ```
 
 You should see rules similar to:
-```
+
+```text
 9100       ALLOW    100.0.0.0/8       # Allow node_exporter from Tailnet
 9100       DENY     Anywhere          # Block node_exporter from outside Tailnet
 ```
 
 ### Test Access
+
 From another machine on your tailnet:
+
 ```bash
 curl http://[TAILSCALE_IP]:9100/metrics
 ```

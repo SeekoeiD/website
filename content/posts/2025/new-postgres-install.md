@@ -114,6 +114,7 @@ sudo systemctl start postgresql
 ```
 
 Now you can use simple commands:
+
 * `sudo systemctl start postgresql`
 * `sudo systemctl stop postgresql`
 * `sudo systemctl restart postgresql`
@@ -130,6 +131,7 @@ sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'my_password';"
 ```
 
 Configure authentication in `/pool/pgdata/pg_hba.conf` to allow:
+
 - Any logged-in user to use CLI with postgres db user
 - Remote connections with password
 
@@ -167,7 +169,7 @@ psql -U postgres -c 'SHOW data_directory;'
 
 It should return:
 
-```
+```bash
 /pool/pgdata
 ```
 
