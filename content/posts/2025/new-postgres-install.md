@@ -8,25 +8,95 @@ tags = ['postgres', 'ubuntu']
 Great — you're setting up a PostgreSQL server where:
 
 * The OS disk is **small**, so you don't want to store database files there.
-* You * **WAL files** will also go under `/pool/pgdata/pg_wal`
-* **You don't need tablespaces** unless you want to spread data over multiple paths/volumes — everything now defaults to `/pool`
+* You want to install **PostgreSQL in default system ## 🧠 Bonus Tips
+
+* **WAL files** are now stored in `/pool/pg_wal` on a separate optimized ZFS dataset
+* **Main data files** are in `/pool/pgdata` with settings optimized for mixed workloads
+* **You don't need tablespaces** unless you want to spread data over multiple pools — everything now defaults to the optimized ZFS datasets
+* ZFS compression and other optimizations benefit PostgreSQL automatically
+* The separate WAL dataset provides better I/O isolation and performance tuning
+
+## 💾 Final Directory Structure
+
+```bash
+/pool/pgdata/             ← Main data directory (on pool/pgdata dataset)
+├── base/                 ← table storage
+├── global/               ← cluster-wide tables
+├── pg_xact/             ← transaction status
+├── postgresql.conf       ← main config
+├── pg_hba.conf          ← authentication config
+└── pg_wal -> /pool/pg_wal  ← symlink to WAL directory
+
+/pool/pg_wal/             ← WAL directory (on pool/pg_wal dataset)
+├── 000000010000000000000001
+├── 000000010000000000000002
+└── ...                   ← Write-Ahead Log files
+```
+
+* You have a **ZFS pool with optimized datasets** for PostgreSQL data and WAL files.
+* Your goal is to have **all tables, WAL, indexes, etc. go to separate optimized ZFS datasets**.
 * With the authentication setup, any logged-in user can connect to PostgreSQL using the postgres database user
-* Remote connections are secured with password authenticationt to install **PostgreSQL in default system locations** (e.g., `/etc`, `/usr`, systemd, etc.).
-* You have a **fast storage mounted at `/pool`**, which you want to hold *all PostgreSQL data* by default.
-* Your goal is to have **all tables, WAL, indexes, etc. go to `/pool`**, despite using default installation paths.
+* Remote connections are secured with password authentication
 
 This is a common scenario in production setups. Below is a **clean, robust setup strategy**.
 
----
-
 ## ✅ Strategy Summary
 
-1. **Install PostgreSQL normally** (from package or source)
-2. **Create the data directory inside your fast storage** (e.g., `/pool/pgdata`)
-3. **Initialize the cluster with that directory**
-4. **Use `systemd` or PostgreSQL config to point the server to that location**
+1. **Create optimized ZFS datasets** for PostgreSQL data and WAL files
+2. **Install PostgreSQL normally** (from package or source)
+3. **Initialize the cluster with separate data and WAL directories**
+4. **Use `systemd` or PostgreSQL config to point the server to those locations**
 5. **Configure authentication for local and remote access**
 6. (Optional) Use tablespaces in subdirectories if you want future flexibility
+
+---
+
+## 🗄️ ZFS Dataset Setup
+
+Before installing PostgreSQL, create optimized ZFS datasets for the database:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Create the RAIDZ2 pool on your 5 NVMe devices
+zpool create -o ashift=12 -o autotrim=on -o autoexpand=on \
+  pool raidz2 /dev/nvme0n1 /dev/nvme1n1 /dev/nvme2n1 /dev/nvme3n1 /dev/nvme6n1
+
+# Create Postgres datasets
+zfs create pool/pgdata
+zfs create pool/pg_wal
+
+# pgdata (tables + indexes): mixed workload friendly
+zfs set compression=zstd-3 pool/pgdata
+zfs set atime=off pool/pgdata
+zfs set xattr=sa pool/pgdata
+zfs set redundant_metadata=most pool/pgdata
+zfs set recordsize=128K pool/pgdata
+zfs set logbias=latency pool/pgdata
+
+# pg_wal (sequential journal)
+zfs set compression=lz4 pool/pg_wal
+zfs set atime=off pool/pg_wal
+zfs set xattr=sa pool/pg_wal
+zfs set recordsize=128K pool/pg_wal
+zfs set logbias=latency pool/pg_wal
+```
+
+### Dataset Optimization Explained
+
+**For `pool/pgdata` (main database files):**
+
+* `compression=zstd-3`: Better compression for mixed data types
+* `recordsize=128K`: Optimal for PostgreSQL's default page size and larger reads
+* `logbias=latency`: Prioritize low latency over throughput
+* `redundant_metadata=most`: Extra metadata protection for critical data
+
+**For `pool/pg_wal` (Write-Ahead Log):**
+
+* `compression=lz4`: Fast compression for sequential writes
+* `recordsize=128K`: Matches PostgreSQL WAL segment size
+* `logbias=latency`: Critical for transaction performance
 
 ---
 
@@ -50,17 +120,20 @@ This installs:
 
 ---
 
-### 2. **Create a New Data Directory in `/pool`**
+### 2. **Set Up Directory Permissions**
+
+Set proper ownership and permissions for the ZFS datasets:
 
 ```bash
-sudo mkdir -p /pool/pgdata
 sudo chown postgres:postgres /pool/pgdata
+sudo chown postgres:postgres /pool/pg_wal
 sudo chmod 700 /pool/pgdata
+sudo chmod 700 /pool/pg_wal
 ```
 
 ---
 
-### 3. **Initialize the PostgreSQL Database**
+### 3. **Initialize the PostgreSQL Database with Separate WAL Directory**
 
 Stop any default services first:
 
@@ -69,11 +142,13 @@ sudo systemctl stop postgresql
 sudo systemctl disable postgresql
 ```
 
-Initialize your database directly:
+Initialize your database with separate data and WAL directories:
 
 ```bash
-sudo -u postgres /usr/lib/postgresql/16/bin/initdb -D /pool/pgdata
+sudo -u postgres /usr/lib/postgresql/16/bin/initdb -D /pool/pgdata -X /pool/pg_wal
 ```
+
+The `-X` flag tells PostgreSQL to use `/pool/pg_wal` for the Write-Ahead Log files, which will be on our optimized ZFS dataset.
 
 (Adjust path for your installed version, e.g. `15` or `16`.)
 
@@ -132,8 +207,8 @@ sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'my_password';"
 
 Configure authentication in `/pool/pgdata/pg_hba.conf` to allow:
 
-- Any logged-in user to use CLI with postgres db user
-- Remote connections with password
+* Any logged-in user to use CLI with postgres db user
+* Remote connections with password
 
 ```bash
 sudo -u postgres tee /pool/pgdata/pg_hba.conf > /dev/null <<EOF
@@ -189,7 +264,7 @@ sudo systemctl status postgresql
 
 Look for the data directory path in the service status.
 
-2. **Check if PostgreSQL is reading your configs:**
+1. **Check if PostgreSQL is reading your configs:**
 
 ```bash
 sudo -u postgres psql -c "SHOW config_file;"
@@ -199,7 +274,7 @@ sudo -u postgres psql -c "SHOW data_directory;"
 
 These should all point to `/pool/pgdata/` paths.
 
-3. **If still having issues, try the manual approach:**
+1. **If still having issues, try the manual approach:**
 
 ```bash
 # Stop the service
@@ -257,24 +332,8 @@ sudo -u postgres psql -c "SELECT pg_reload_conf();"
 
 ## 🧠 Bonus Tips
 
-* **WAL files** will also go under `/pool/pgdata/pg_wal`
 * **You don’t need tablespaces** unless you want to spread data over multiple paths/pools — everything now defaults to `/pool`
 * If your ZFS pool supports compression or deduplication, PostgreSQL will benefit automatically
-
----
-
-## 📘 Final Directory Layout
-
-```bash
-/pool/pgdata/
-├── base/             ← main table storage
-├── pg_wal/           ← write-ahead logs
-├── global/
-├── pg_xact/
-├── postgresql.conf
-├── pg_hba.conf       ← authentication config
-└── ...
-```
 
 ---
 

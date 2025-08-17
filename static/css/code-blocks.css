@@ -13,10 +13,14 @@ pre {
   border-radius: 8px;
   padding: 1rem;
   overflow-x: auto;
+  overflow-y: hidden;
   position: relative;
   font-size: 0.875rem;
   line-height: 1.5;
   margin: 0;
+  white-space: pre;
+  word-wrap: normal;
+  max-width: 100%;
 }
 
 /* Code blocks inside pre */
@@ -26,6 +30,9 @@ pre code {
   border: none !important;
   font-size: inherit;
   color: inherit;
+  white-space: pre;
+  word-wrap: normal;
+  overflow-wrap: normal;
 }
 
 /* Inline code styling */
@@ -42,6 +49,8 @@ code:not(pre code) {
   background-color: #f8f9fa !important;
   border-radius: 8px;
   overflow: hidden;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .chroma pre {
@@ -49,6 +58,9 @@ code:not(pre code) {
   border: none;
   margin: 0;
   padding: 1rem;
+  overflow-x: auto;
+  white-space: pre;
+  word-wrap: normal;
 }
 
 /* Copy button styling */
@@ -106,13 +118,18 @@ code:not(pre code) {
   margin-bottom: 1rem;
   border-radius: 8px;
   overflow: hidden;
+  overflow-x: auto;
   border: 1px solid #e9ecef;
   background-color: #f8f9fa;
+  max-width: 100%;
 }
 
 .highlight pre {
   border: none;
   margin: 0;
+  overflow-x: auto;
+  white-space: pre;
+  word-wrap: normal;
 }
 
 /* Line numbers styling for Chroma */
@@ -172,4 +189,55 @@ code:not(pre code) {
     border-color: #30363d;
     color: #8b949e;
   }
+}
+
+/* Additional horizontal scroll support for all code block variations */
+div[class*="highlight"] pre,
+div[class*="chroma"] pre,
+.highlight-wrapper pre,
+.code-block pre {
+  overflow-x: auto !important;
+  white-space: pre !important;
+  word-wrap: normal !important;
+}
+
+/* Ensure code elements don't break words */
+code {
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+/* But override for code inside pre blocks */
+pre code {
+  white-space: pre !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+/* Scrollbar styling for better visibility */
+pre::-webkit-scrollbar,
+.chroma::-webkit-scrollbar,
+.highlight::-webkit-scrollbar {
+  height: 8px;
+}
+
+pre::-webkit-scrollbar-track,
+.chroma::-webkit-scrollbar-track,
+.highlight::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-thumb,
+.chroma::-webkit-scrollbar-thumb,
+.highlight::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-thumb:hover,
+.chroma::-webkit-scrollbar-thumb:hover,
+.highlight::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
