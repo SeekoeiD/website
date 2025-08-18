@@ -102,13 +102,13 @@ zfs set logbias=latency pool/pg_wal
 
 ## 🛠️ Step-by-Step Guide
 
-### 1. **Install PostgreSQL (Default System Paths)**
+### 1. **Install PostgreSQL**
 
 On Ubuntu:
 
 ```bash
-sudo apt update
-sudo apt install postgresql
+apt update
+apt install postgresql
 ```
 
 This installs:
@@ -120,80 +120,33 @@ This installs:
 
 ---
 
-### 2. **Set Up Directory Permissions**
+### 2. **Set Up Directories**
 
-Set proper ownership and permissions for the ZFS datasets:
+Edit `createcluster.conf` in `/etc/postgresql-common/` to set the data and WAL directories:
 
 ```bash
-sudo chown postgres:postgres /pool/pgdata
-sudo chown postgres:postgres /pool/pg_wal
-sudo chmod 700 /pool/pgdata
-sudo chmod 700 /pool/pg_wal
+nano /etc/postgresql-common/createcluster.conf
+```
+
+Update the following lines:
+
+```conf
+data_directory = '/pool/pgdata/%v/%c'
+waldir = '/pool/pg_wal/%v/%c/pg_wal'
 ```
 
 ---
 
-### 3. **Initialize the PostgreSQL Database with Separate WAL Directory**
-
-Stop any default services first:
+### 3. **Re-Initialize the PostgreSQL Cluster**
 
 ```bash
-sudo systemctl stop postgresql
-sudo systemctl disable postgresql
+pg_dropcluster --stop 14 main
+pg_createcluster 14 main
+pg_ctlcluster 14 main start
+pg_lsclusters
 ```
 
-Initialize your database with separate data and WAL directories:
-
-```bash
-sudo -u postgres /usr/lib/postgresql/16/bin/initdb -D /pool/pgdata -X /pool/pg_wal
-```
-
-The `-X` flag tells PostgreSQL to use `/pool/pg_wal` for the Write-Ahead Log files, which will be on our optimized ZFS dataset.
-
-(Adjust path for your installed version, e.g. `15` or `16`.)
-
----
-
-### 4. **Create a Simple Systemd Service**
-
-Instead of using Ubuntu's cluster system, create a simple custom service:
-
-```bash
-sudo tee /etc/systemd/system/postgresql.service > /dev/null <<EOF
-[Unit]
-Description=PostgreSQL database server
-Documentation=man:postgres(1)
-After=network-online.target
-Wants=network-online.target
-
-[Service]
-Type=notify
-User=postgres
-ExecStart=/usr/lib/postgresql/16/bin/postgres -D /pool/pgdata
-ExecReload=/bin/kill -HUP \$MAINPID
-KillMode=mixed
-KillSignal=SIGINT
-TimeoutSec=infinity
-
-[Install]
-WantedBy=multi-user.target
-EOF
-```
-
-Enable and start the service:
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable postgresql
-sudo systemctl start postgresql
-```
-
-Now you can use simple commands:
-
-* `sudo systemctl start postgresql`
-* `sudo systemctl stop postgresql`
-* `sudo systemctl restart postgresql`
-* `sudo systemctl status postgresql`
+pg_dropcluster removes the old cluster’s data and config; pg_createcluster initializes a new one and wires it into the service layout; pg_ctlcluster controls it.
 
 ---
 
@@ -205,25 +158,22 @@ Set the password for the postgres database user:
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'my_password';"
 ```
 
-Configure authentication in `/pool/pgdata/pg_hba.conf` to allow:
+Configure authentication in `/etc/postgresql/14/main/pg_hba.conf` to allow:
 
-* Any logged-in user to use CLI with postgres db user
-* Remote connections with password
+* Any user can log in locally without password
+* Any user can login remotely with password
 
 ```bash
-sudo -u postgres tee /pool/pgdata/pg_hba.conf > /dev/null <<EOF
+tee /etc/postgresql/14/main/pg_hba.conf > /dev/null <<EOF
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
 
-# Allow local connections without password for all users to connect as postgres
-local   all             postgres                                trust
-local   all             all                                     peer
+# Allow local connections without password for all users
+local   all             all                                     trust
 
 # IPv4 remote connections with password
-host    all             postgres        0.0.0.0/0               md5
 host    all             all             0.0.0.0/0               md5
 
 # IPv6 remote connections with password  
-host    all             postgres        ::/0                    md5
 host    all             all             ::/0                    md5
 EOF
 ```
@@ -231,7 +181,7 @@ EOF
 Enable remote connections by editing the main config:
 
 ```bash
-sudo -u postgres sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /pool/pgdata/postgresql.conf
+sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /etc/postgresql/14/main/postgresql.conf
 ```
 
 ---
@@ -245,8 +195,31 @@ psql -U postgres -c 'SHOW data_directory;'
 It should return:
 
 ```bash
-/pool/pgdata
+/pool/pgdata/14/main
 ```
+
+---
+
+### 7. **Upgrade to Latest PostgreSQL Version (Optional)**
+
+If you want to upgrade to the latest PostgreSQL version available from the official PostgreSQL APT repository:
+
+```bash
+# Install PostgreSQL APT repository
+sudo apt install -y postgresql-common
+sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+
+# Update package lists and upgrade
+sudo apt update
+sudo apt upgrade
+sudo apt autoremove
+
+# Remove the old cluster (this will delete the old version's data)
+pg_dropcluster 14 main
+sudo systemctl daemon-reload
+```
+
+the upgrade process will ask to upgrade the cluster and to confirm to keep the changes we made in the `createcluster.conf` file.
 
 ---
 
@@ -272,7 +245,11 @@ sudo -u postgres psql -c "SHOW hba_file;"
 sudo -u postgres psql -c "SHOW data_directory;"
 ```
 
-These should all point to `/pool/pgdata/` paths.
+These should show:
+
+* `config_file`: `/etc/postgresql/14/main/postgresql.conf`
+* `hba_file`: `/etc/postgresql/14/main/pg_hba.conf`  
+* `data_directory`: `/pool/pgdata/14/main`
 
 1. **If still having issues, try the manual approach:**
 
@@ -310,21 +287,21 @@ ALTER USER root WITH PASSWORD 'my_password';
 \q
 ```
 
-For peer authentication issues, ensure your `/pool/pgdata/pg_hba.conf` has:
+For peer authentication issues, ensure your `/etc/postgresql/14/main/pg_hba.conf` has:
 
 ```conf
-# Allow local connections without password for postgres user
-local   all             postgres                                trust
-# Allow local peer connections for all users
-local   all             all                                     peer
+# Allow local connections without password for all users
+local   all             all                                     trust
 # Allow remote connections with password
-host    all             postgres        0.0.0.0/0               md5
 host    all             all             0.0.0.0/0               md5
+host    all             all             ::/0                    md5
 ```
 
 Then reload the config:
 
 ```bash
+sudo systemctl reload postgresql@14-main
+# OR
 sudo -u postgres psql -c "SELECT pg_reload_conf();"
 ```
 
