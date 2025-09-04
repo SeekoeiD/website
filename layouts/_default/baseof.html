@@ -38,6 +38,11 @@
         rel="stylesheet"
         href="{{ `css/code-blocks.css` | relURL }}">
 
+      <!-- Custom font-size override -->
+      <link type="text/css"
+                        rel="stylesheet"
+                        href="{{ `css/custom-font-size.css` | relURL }}">
+
   {{ partial "theme-color.html" . }}
 
   {{ range $.Site.Params.customCss -}}

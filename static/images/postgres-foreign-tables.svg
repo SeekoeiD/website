@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="420" viewBox="0 0 880 420" role="img" aria-labelledby="title desc">
+  <title id="title">PostgreSQL Foreign Tables Layout</title>
+  <desc id="desc">Hierarchy: Server localhost with markets and exchanges databases. Markets has prices schema with metalprices table. Exchanges has public schema with candles table and metalprices_fdw foreign table referencing metalprices.</desc>
+  <style>
+    .server { fill:#e3f2fd; stroke:#1976d2; stroke-width:2; }
+    .db { fill:#f3e5f5; stroke:#7b1fa2; stroke-width:1.5; }
+    .schema { fill:#e8f5e8; stroke:#388e3c; stroke-width:1.5; }
+    .table { fill:#fff3e0; stroke:#f57c00; stroke-width:1.2; }
+    .table-foreign { fill:#ffebee; stroke:#d32f2f; stroke-width:1.2; stroke-dasharray:6 4; }
+    .title { font: bold 14px 'Segoe UI', Arial, sans-serif; fill:#0d47a1; }
+    .label { font: 12px 'Segoe UI', Arial, sans-serif; fill:#222; }
+    .note { font: italic 11px 'Segoe UI', Arial, sans-serif; fill:#555; }
+    .edge { stroke:#555; stroke-width:1.2; fill:none; marker-end:url(#arrow); }
+    .edge-dash { stroke:#d32f2f; stroke-width:1.4; fill:none; stroke-dasharray:5 5; marker-end:url(#arrow-red); }
+    .edge-label { font: 11px 'Segoe UI', Arial, sans-serif; fill:#b71c1c; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#555" />
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d32f2f" />
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Server -->
+  <g transform="translate(40,20)" filter="url(#shadow)">
+    <rect class="server" x="0" y="0" rx="8" ry="8" width="800" height="380" />
+    <text class="title" x="20" y="28">🖥️ PostgreSQL Server (localhost:5432)</text>
+  </g>
+
+  <!-- markets database -->
+  <g transform="translate(70,70)" filter="url(#shadow)">
+    <rect class="db" x="0" y="0" rx="6" ry="6" width="340" height="300" />
+    <text class="label" x="12" y="22">📊 markets (database)</text>
+
+    <!-- prices schema -->
+    <g transform="translate(16,50)">
+      <rect class="schema" x="0" y="0" rx="6" ry="6" width="308" height="220" />
+      <text class="label" x="12" y="22">📁 prices (schema)</text>
+      <!-- metalprices table -->
+      <g transform="translate(24,60)">
+        <rect class="table" x="0" y="0" rx="4" ry="4" width="260" height="110" />
+        <text class="label" x="10" y="20">📋 metalprices (table)</text>
+        <text class="label" x="14" y="42">timestamp (PK)</text>
+        <text class="label" x="14" y="58">base (PK)</text>
+        <text class="label" x="140" y="58">quote (PK)</text>
+        <text class="label" x="14" y="74">price</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- exchanges database -->
+  <g transform="translate(470,70)" filter="url(#shadow)">
+    <rect class="db" x="0" y="0" rx="6" ry="6" width="340" height="300" />
+    <text class="label" x="12" y="22">💱 exchanges (database)</text>
+
+    <!-- public schema -->
+    <g transform="translate(16,50)">
+      <rect class="schema" x="0" y="0" rx="6" ry="6" width="308" height="220" />
+      <text class="label" x="12" y="22">📁 public (schema)</text>
+      <!-- candles table -->
+      <g transform="translate(24,60)">
+        <rect class="table" x="0" y="0" rx="4" ry="4" width="260" height="110" />
+        <text class="label" x="10" y="20">📋 candles (table)</text>
+        <text class="label" x="14" y="42">datetime</text>
+        <text class="label" x="140" y="42">exchange</text>
+        <text class="label" x="14" y="58">base</text>
+        <text class="label" x="140" y="58">quote</text>
+        <text class="label" x="14" y="74">c</text>
+        <text class="label" x="140" y="74">period</text>
+      </g>
+      <!-- foreign table -->
+      <g transform="translate(24,182)">
+        <rect class="table-foreign" x="0" y="0" rx="4" ry="4" width="260" height="86" />
+        <text class="label" x="10" y="20">🔗 metalprices_fdw (foreign table)</text>
+        <text class="label" x="14" y="42">timestamp, base, quote, price</text>
+        <text class="note" x="14" y="62">FDW: prices.metalprices</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Relationship dashed line -->
+  <path class="edge-dash" d="M 354 240 C 400 240 430 240 470 240" />
+  <text class="edge-label" x="397" y="228">postgres_fdw</text>
+
+  <!-- Legend -->
+  <g transform="translate(40,400)">
+    <text class="note" x="0" y="0">Dashed red box = foreign table referencing source table through FDW on same or remote server.</text>
+  </g>
+</svg>

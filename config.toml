@@ -8,6 +8,7 @@ summarylength = 10
 enableEmoji = true
 pagination.pagerSize = 5
 ignoreErrors = ["error-remote-getjson"]
+# enableMermaid = true
 
 [params]
 description = "Daniël du Toit"

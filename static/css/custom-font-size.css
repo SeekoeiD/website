@@ -1,0 +1,26 @@
+/* Slightly reduce main content font size for better density */
+:root {
+  --site-font-size: 15px; /* default theme may be 16px */
+}
+
+body, .content, .post, .post p, .post li {
+  font-size: var(--site-font-size);
+  line-height: 1.5;
+}
+
+/* Slightly smaller headings to match */
+h1.title { font-size: 1.6rem; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.05rem; }
+
+/* Adjust sidebar to keep proportions */
+.sidebar { font-size: 0.95rem; }
+
+/* Ensure code blocks remain readable but slightly smaller than body */
+.chroma, pre, code, pre code, code[class^="language-"], .highlight pre {
+  font-size: 0.85rem;
+  font-family: "Fira Mono", "Source Code Pro", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/* Slightly reduce inline code so it doesn't dominate the line */
+code, kbd, tt { font-size: 0.82rem; }
