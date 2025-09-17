@@ -125,8 +125,8 @@ DROP SECRET __default_postgres;
 -- Create S3 secret for MinIO connection
 CREATE SECRET (
     TYPE S3,
-    KEY_ID '4SPjnclI7rvsZFzOYQRA',
-    SECRET '3L0nn8JxsiroPrPUeoU6Z1ZvMvzJY6xoCqSJfKuP',
+    KEY_ID '<redacted>',
+    SECRET '<redacted>',
     ENDPOINT 'worker7:9000',
     USE_SSL false,
     URL_STYLE 'path'
