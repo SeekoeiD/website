@@ -139,7 +139,7 @@ CREATE SECRET (
     PORT 5432,
     DATABASE 'ducklake',
     USER 'postgres',
-    PASSWORD 'monkey'
+    PASSWORD '<redacted>'
 );
 
 -- Install required extensions
